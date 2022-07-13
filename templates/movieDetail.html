@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {{ movie }}
+    <hr>
+    <a href="{% url 'movies:update' movie.pk %}">Edit</a>
+    <a href="{% url 'movies:delete' movie.pk %}">Delete</a>
+{% endblock content %}

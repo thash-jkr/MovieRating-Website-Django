@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ hello }}</h1>
+    <hr>
+    <a href="{% url 'movies:list' %}">Movie List</a>
+{% endblock content %}
