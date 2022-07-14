@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
 
 from .models import Movie
 from .forms import MovieForm
+from .utils import get_chart
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -23,10 +24,20 @@ class movieList(ListView):
     context_object_name = "movies"
 
 
-class movieDetail(DetailView):
-    model = Movie
-    template_name = "movieDetail.html"
-    context_object_name = "movie"
+def movieDetail(request, pk):
+    movie_qs = Movie.objects.all()
+    movie = Movie.objects.get(id=pk)
+    movie_df = pd.DataFrame(movie_qs.values())
+    temp = movie_df["title"] == movie.title
+    movie_df = movie_df[temp]
+    chart = get_chart(movie_df)
+    movie_df = movie_df.to_html()
+    context = {
+        "movie": movie,
+        "movie_df": movie_df,
+        "chart": chart
+    }
+    return render(request, "movieDetail.html", context)
 
 def movieCreate(request):
     form = MovieForm()
