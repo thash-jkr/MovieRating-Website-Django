@@ -1,5 +1,4 @@
 from statistics import mode
-from attr import field
 from django.forms import ModelForm
 
 from .models import Movie
